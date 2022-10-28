@@ -115,6 +115,9 @@ class ArtNetHueEntertainmentCliHandler {
             const host = this.config.get('hue:host');
             const username = this.config.get('hue:username');
             const clientKey = this.config.get('hue:clientKey');
+            const roomId = this.config.get('hue:roomId');
+            const lights = this.config.get('hue:lights');
+            const artNetBindIp = this.config.get("artnet:ip");
             if (host === undefined || username === undefined || clientKey === undefined) {
                 console.log('No Hue bridge is paired yet. Please pair a bridge first');
                 return;
@@ -123,35 +126,9 @@ class ArtNetHueEntertainmentCliHandler {
                 hueHost: host,
                 hueUsername: username,
                 hueClientKey: clientKey,
-                entertainmentRoomId: 200,
-                artNetBindIp: '172.24.184.16',
-                lights: [
-                    {
-                        dmxStart: 1,
-                        lightId: '31',
-                        channelMode: '8bit-dimmable',
-                    },
-                    {
-                        dmxStart: 5,
-                        lightId: '32',
-                        channelMode: '8bit-dimmable',
-                    },
-                    {
-                        dmxStart: 9,
-                        lightId: '33',
-                        channelMode: '8bit-dimmable',
-                    },
-                    {
-                        dmxStart: 13,
-                        lightId: '34',
-                        channelMode: '8bit-dimmable',
-                    },
-                    // {
-                    //     dmxStart: 5,
-                    //     lightId: '11',
-                    //     channelMode: '8bit-dimmable',
-                    // },
-                ]
+                entertainmentRoomId: roomId,
+                artNetBindIp: artNetBindIp,
+                lights: lights
             });
             yield bridge.start();
         });
@@ -170,14 +147,14 @@ class ArtNetHueEntertainmentCliHandler {
         return __awaiter(this, void 0, void 0, function* () {
             let exists;
             try {
-                const fileInfo = yield promises_1.stat(CONFIG_FILE_PATH);
+                const fileInfo = yield (0, promises_1.stat)(CONFIG_FILE_PATH);
                 exists = fileInfo.isFile();
             }
             catch (e) {
                 exists = false;
             }
             if (!exists) {
-                const fd = yield promises_1.open(CONFIG_FILE_PATH, 'w');
+                const fd = yield (0, promises_1.open)(CONFIG_FILE_PATH, 'w');
                 yield fd.write('{}');
                 yield fd.close();
             }

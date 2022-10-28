@@ -1,0 +1,21 @@
+{
+  "hue": {
+    "host": "192.168.1.227",
+    "username": "n2ojBbNiL3cu4Npltbj9rGAzfG-2feQzdDDDMdHJ",
+    "clientKey": "0588E71CF923FAF24F8E58794E067D58",
+    "roomId": 200,
+    "lights":[ {
+      "dmxStart": 1,
+      "lightId": "28",
+      "channelMode": "8bit-dimmable"
+  },
+  {
+      "dmxStart": 5,
+      "lightId": "29",
+      "channelMode": "8bit-dimmable"
+  }]
+  },
+  "artnet":{
+    "ip":"127.0.0.1"
+  }
+}

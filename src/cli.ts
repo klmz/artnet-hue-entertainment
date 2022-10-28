@@ -78,7 +78,7 @@ class ArtNetHueEntertainmentCliHandler {
 
             console.log('Hue setup was successful! Credentials are saved. You can run the server now.')
 
-        } catch (e) {
+        } catch (e: any) {
             if (e._hueError) {
                 console.error('Error while pairing:', e._hueError.payload.message);
                 process.exit(1);
@@ -109,6 +109,11 @@ class ArtNetHueEntertainmentCliHandler {
         const host = this.config.get('hue:host') as string;
         const username = this.config.get('hue:username') as string;
         const clientKey = this.config.get('hue:clientKey') as string;
+        const roomId = this.config.get('hue:roomId') as number;
+        const lights = this.config.get('hue:lights') as {
+            dmxStart: number, lightId: string, channelMode: "8bit-dimmable"
+        }[]
+        const artNetBindIp = this.config.get("artnet:ip") as string;
         if (host === undefined || username === undefined || clientKey === undefined) {
             console.log('No Hue bridge is paired yet. Please pair a bridge first');
             return;
@@ -118,35 +123,9 @@ class ArtNetHueEntertainmentCliHandler {
             hueHost: host,
             hueUsername: username,
             hueClientKey: clientKey,
-            entertainmentRoomId: 200,
-            artNetBindIp: '172.24.184.16',
-            lights: [
-                {
-                    dmxStart: 1,
-                    lightId: '31',
-                    channelMode: '8bit-dimmable',
-                },
-                {
-                    dmxStart: 5,
-                    lightId: '32',
-                    channelMode: '8bit-dimmable',
-                },
-                {
-                    dmxStart: 9,
-                    lightId: '33',
-                    channelMode: '8bit-dimmable',
-                },
-                {
-                    dmxStart: 13,
-                    lightId: '34',
-                    channelMode: '8bit-dimmable',
-                },
-                // {
-                //     dmxStart: 5,
-                //     lightId: '11',
-                //     channelMode: '8bit-dimmable',
-                // },
-            ]
+            entertainmentRoomId: roomId,
+            artNetBindIp: artNetBindIp,
+            lights: lights
         });
         await bridge.start();
     }
